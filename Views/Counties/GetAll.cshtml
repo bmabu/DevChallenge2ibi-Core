@@ -1,0 +1,254 @@
+﻿@model IEnumerable<DevChallenge2ibi.Models.Country>
+
+@{
+    ViewData["Title"] = "GetAll";
+}
+
+<h1>GetAll</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+@using (Html.BeginForm("GetAllByName", "Counties"))
+{
+    <p hidden>
+        Find by name: @Html.TextBox("filterByName")
+        <input type="submit" value="Search" id="SearchStr"/>
+    </p>
+}
+<table class="table table-striped text-center table-borderless table-responsive-md" id="tbCOn">
+    <thead>
+        <tr>
+            <th colspan="3">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th rowspan="2">
+                @Html.DisplayNameFor(model => model.Capital)
+            </th>
+            <th rowspan="2">
+                @Html.DisplayNameFor(model => model.Region)
+            </th>
+            <th rowspan="2">
+                @Html.DisplayNameFor(model => model.Subregion)
+            </th>
+            <th rowspan="2">
+                @Html.DisplayNameFor(model => model.Population)
+            </th>
+            <th rowspan="2">
+                @Html.DisplayNameFor(model => model.Area)
+            </th>
+          
+            <th rowspan="2">
+                @Html.DisplayNameFor(model => model.Currencies)
+            </th>
+            
+              
+            <th rowspan="2">Bandeira</th>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name.Common)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name.Official)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name.NativeName)
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name.Common)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name.Official)
+                </td>
+                <td>
+                    @{ var countNativeNames = 0;}
+                    @if (item.Name.NativeName != null)
+                    {
+
+                        countNativeNames = item.Name.NativeName.Count;
+                        @for (int i = 0; i < countNativeNames; i++)
+                        {
+                            <p>
+                                <b> @Html.DisplayFor(modelItem => item.Name.NativeName.ElementAt(i).Key):</b>
+                                @Html.DisplayFor(modelItem => item.Name.NativeName.ElementAt(i).Value.Common)
+                                (@Html.DisplayFor(modelItem => item.Name.NativeName.ElementAt(i).Value.Official))
+                            </p>
+
+                        }
+
+
+                    }
+
+
+
+                </td>
+                <td>
+                    @{
+                        var capitais = "";
+
+                    }
+                    @if (item.Capital != null)
+                    {
+                        @foreach (var i in item.Capital)
+                        {
+                            capitais += i.ToString() + " ";
+                        }
+                    }
+
+                    [@Html.DisplayFor(modelItem => capitais)]
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Region)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subregion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Population)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area)
+                </td>
+                @*<td>
+                        @{
+                            var timex = "";
+
+                        }
+                        @if (item.Timezones != null)
+                        {
+                            @foreach (var i in item.Timezones)
+                            {
+                                timex += "<"+ i.ToString() + ">";
+                            }
+                        }
+
+                        [@Html.DisplayFor(modelItem => timex)]
+                    </td>*@
+                <td>
+                    @{
+                        var chave = "";
+                        string currencyName = "";
+                        string currencySymbol = "";
+                        var tamanho = 0;
+                        if (item.Currencies != null)
+                        {
+                            tamanho = item.Currencies.Count();
+                            @for (var i = 0; i < tamanho; i++)
+                            {
+
+                                chave = item.Currencies.ElementAt(i).Key;
+                                currencyName = item.Currencies.ElementAt(i).Value.Name;
+                                currencySymbol = item.Currencies.ElementAt(i).Value.Symbol;
+                                <p>
+                                    <b>
+
+                                        @Html.DisplayFor(modelItem => chave):
+                                    </b>
+
+                                    @Html.DisplayFor(modelItem => currencyName)
+                                    (@Html.DisplayFor(modelItem => currencySymbol))
+                                </p>
+                            }
+
+                        }
+
+
+                    }
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Idd.Root)
+                    </td>
+                    <td>
+                        @{
+                            var sufixe = "";
+                        }
+                        @if (item.Idd.Suffixes != null)
+                        {
+                            foreach (var i in item.Idd.Suffixes)
+                            {
+
+                                sufixe += i.ToString() + " ";
+                            }
+                            @Html.DisplayFor(modelItem => sufixe)
+                        }
+
+
+                    </td>*@
+
+                @*<td>
+                        @{
+                            var spells = "";
+                        }
+                        @foreach (var i in item.AltSpellings)
+                        {
+                            spells += "[" + i.ToString() + "]";
+                        }
+                        @Html.DisplayFor(modelItem => spells)
+                    </td>*@
+
+                @*
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Landlocked)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Area)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Flag)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Population)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fifa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartOfWeek)
+                    </td>*@
+            <td>
+                @{
+                    var linkFlag = item.Flags.Png;
+                    var itemALt = item.Name.Common;
+                                <a class="btn btn-success" href="@String.Format(linkFlag)" target="_blank">Ver</a>
+                }
+
+                @*@Html.ActionLink(linkFlag, "Edit", new { /* id=item.PrimaryKey */ }) |*@
+                @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+@section Scripts{
+    <script type="text/javascript">
+
+        //$(document).ready(function () {
+        //    if ($("#SearchStr").text.length < 1) {
+        //        alert("No data");
+        //    }
+        //});
+
+        $(document).ready(function () {
+
+            $('#tbCOn').DataTable();
+
+        });
+
+    </script>
+
+            }
